@@ -191,3 +191,5 @@ show_products()
 
 # --- Inicia o loop principal da aplicação ---
 root.mainloop()
+
+# teste para commit #
