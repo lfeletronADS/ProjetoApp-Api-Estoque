@@ -6,6 +6,7 @@ README.md
 <p align="center"> <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Status da construção"></a> <a href="https://packagist.org/pacotes/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total de downloads"></a> <a href="https://packagist.org/pacotes/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Última versão estável"></a> <a href="https://packagist.org/pacotes/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="Licença"></a> </p>
 
 Visão Geral do Projeto
+
 Este é um sistema de controle de estoque completo, projetado para gerenciar produtos de forma eficiente. O projeto é dividido em duas partes: um backend robusto em API, construído sobre o framework Laravel, e um frontend com uma aplicação desktop nativa em Python.
 
 Este projeto está em constante evolução, com planos para absorver a gestão de vendas e, futuramente, se integrar com a SEFAZ para emissão de notas fiscais.
