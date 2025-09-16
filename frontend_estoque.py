@@ -6,6 +6,9 @@ import requests
 # Exemplo: se o servidor for 192.168.1.5, a URL seria "http://192.168.1.5:8000/api/products"
 API_URL = "http://127.0.0.1:8000/api/products"
 
+# Nome do Estabelecimento (pode ser alterado facilmente aqui)
+ESTABLISHMENT_NAME = "CIATRON COMPONENTES"
+
 
 #Busca todos os produtos da API e retorna como uma lista de dicionários.
 def get_all_products():
@@ -35,32 +38,46 @@ def show_products():
 def save_product():
     #Adiciona ou atualiza um produto no banco de dados via API.#
     try:
+        # Ponto de validação no frontend
+        name = name_entry.get()
+        desc = desc_entry.get()
+        price = price_entry.get()
+        stock = stock_entry.get()
+
+        if not name or not desc or not price or not stock:
+            messagebox.showwarning("Atenção", "Todos os campos devem ser preenchidos!")
+            return
+
+        try:
+            price = float(price)
+            stock = int(stock)
+        except ValueError:
+            messagebox.showerror("Erro de Validação", "Preço deve ser um número e Quantidade deve ser um número inteiro!")
+            return
+            
         product_data = {
-            "name": name_entry.get(),
-            "description": desc_entry.get(),
-            "price": float(price_entry.get()),
-            "stock_quantity": int(stock_entry.get())
+            "name": name,
+            "description": desc,
+            "price": price,
+            "stock_quantity": stock
         }
 
         product_id = id_entry.get()
 
         if product_id == "Novo":
-        # Requisição POST para criar um novo produto
             response = requests.post(API_URL, json=product_data)
             messagebox.showinfo("Sucesso", "Produto adicionado com sucesso!")
         else:
-        # Requisição PUT para atualizar um produto existente
             response = requests.put(f"{API_URL}/{product_id}", json=product_data)
             messagebox.showinfo("Sucesso", "Produto atualizado com sucesso!")
         
         response.raise_for_status()
         show_products()
         clear_fields()
-    except (requests.exceptions.RequestException, ValueError) as e:
+    except requests.exceptions.RequestException as e:
         messagebox.showerror("Erro", f"Erro ao processar a requisição: {e}")
-
 def delete_product():
-    """Exclui o produto selecionado na tabela via API."""
+    #Exclui o produto selecionado na tabela via API."""
     selected_item = product_tree.selection()
     if not selected_item:
         messagebox.showwarning("Atenção", "Selecione um produto para excluir.")
@@ -79,7 +96,7 @@ def delete_product():
             messagebox.showerror("Erro", f"Erro ao excluir produto: {e}")
 
 def load_product_to_form(event):
-    """Carrega os dados do produto selecionado na tabela para o formulário."""
+    #Carrega os dados do produto selecionado na tabela para o formulário."""
     selected_item = product_tree.selection()
     if not selected_item:
         return
@@ -104,7 +121,7 @@ def load_product_to_form(event):
     stock_entry.insert(0, values[4])
 
 def clear_fields():
-    """Limpa todos os campos de entrada do formulário."""
+    #Limpa todos os campos de entrada do formulário."""
     id_entry.config(state='normal')
     id_entry.delete(0, tk.END)
     id_entry.insert(0, "Novo")
@@ -116,7 +133,7 @@ def clear_fields():
 
 # --- Configuração da Janela Principal ---
 root = tk.Tk()
-root.title("Sistema de Controle de Estoque")
+root.title(f"Sistema de Controle de Estoque | {ESTABLISHMENT_NAME}")
 root.geometry("1000x600")
 
 # --- Estrutura da Interface ---
